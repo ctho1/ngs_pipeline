@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --cpus-per-task=24
-#SBATCH --partition normal
+#SBATCH --partition requeue
 #SBATCH --time=2:00:00
 #SBATCH --mem=80G
 #SBATCH --job-name=ngs_pipeline
@@ -41,80 +41,79 @@ rm -f "$TMP_DIR"/${R1_base}_aligned.sam
 samtools sort -@ $THREADS -m 20G "$TMP_DIR"/${R1_base}_aligned.bam -o "$TMP_DIR"/${R1_base}_aligned.bam
 
 module purge
-ml palma/2019a GCC/8.2.0-2.31.1 OpenMPI/3.1.3 CNVkit/0.9.6-Python-3.7.2-R-3.6.0
+ml palma/2022b foss/2022b CNVkit/0.9.10-R-4.2.2
 cnvkit.py batch "$TMP_DIR"/${R1_base}_aligned.bam --reference $CNV_REF --processes 0 \
 	--drop-low-coverage --output-dir $OUT_DIR/cnv --diagram
 
-module purge
 # all chromosomes
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} --segment-color 'red' --fig-size 10 4 \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} --segment-color 'blue' --fig-size 10 4 \
 	-o $OUT_DIR/cnv/${R1_base}_all_chr_gene_names.pdf
 
 # chr1
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr1 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr1 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr1.pdf
 # chr2
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr2 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr2 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr2.pdf
 # chr3
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr3 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr3 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr3.pdf
 # chr4
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr4 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr4 --segment-color 'blue' \
 -g PDGFRA,FGFR3 -o "$OUT_DIR"/cnv/${R1_base}_chr4.pdf
 # chr5
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr5 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr5 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr5.pdf
 # chr6
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr6 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr6 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr6.pdf
 # chr7
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr7 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr7 --segment-color 'blue' \
 -g EGFR,MET -o "$OUT_DIR"/cnv/${R1_base}_chr7.pdf
 # chr8
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr8 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr8 --segment-color 'blue' \
 -g FGFR1 -o "$OUT_DIR"/cnv/${R1_base}_chr8.pdf
 # chr9
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr9 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr9 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr9.pdf
 # chr10
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr10 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr10 --segment-color 'blue' \
 -g PTEN -o "$OUT_DIR"/cnv/${R1_base}_chr10.pdf
 # chr11
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr11 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr11 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr11.pdf
 # chr12
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr12 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr12 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr12.pdf
 # chr13
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr13 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr13 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr13.pdf
 # chr14
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr14 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr14 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr14.pdf
 # chr15
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr15 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr15 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr15.pdf
 # chr16
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr16 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr16 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr16.pdf
 # chr17
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr17 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr17 --segment-color 'blue' \
 -g TP53 -o "$OUT_DIR"/cnv/${R1_base}_chr17.pdf
 # chr18
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr18 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr18 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr18.pdf
 # chr19
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr19 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr19 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr19.pdf
 # chr20
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr20 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr20 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr20.pdf
 # chr21
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr21 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr21 --segment-color 'blue' \
 -o "$OUT_DIR"/cnv/${R1_base}_chr21.pdf
 # chr22
-cnvkit.py scatter -s $OUT_DIR/cnv/*.cn{s,r} -c chr22 --segment-color 'red' \
+cnvkit.py scatter -s $OUT_DIR/cnv/*aligned.cn{s,r} -c chr22 --segment-color 'blue' \
 -g SMARCB1 -o "$OUT_DIR"/cnv/${R1_base}_chr22.pdf
 
 ### Arriba #################################################################################
